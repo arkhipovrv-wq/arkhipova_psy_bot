@@ -24,6 +24,15 @@ app.add_middleware(
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
+
+def normalize_web_app_url(url: str) -> str:
+    value = (url or "").strip()
+    if not value:
+        return ""
+    if value.startswith("http://") or value.startswith("https://"):
+        return value
+    return f"https://{value}"
+
 # ─── MODELS ───────────────────────────────────────────────────
 class BookingRequest(BaseModel):
     service:  str
@@ -51,7 +60,9 @@ async def send_message(chat_id: str, text: str, reply_markup: dict | None = None
 
 
 async def send_start_menu(chat_id: str):
-    if not WEB_APP_URL:
+    web_app_url = normalize_web_app_url(WEB_APP_URL)
+
+    if not web_app_url:
         return await send_message(
             chat_id,
             "Бот подключен, но не настроен WEB_APP_URL. Добавьте переменную окружения и перезапустите сервис.",
@@ -59,8 +70,8 @@ async def send_start_menu(chat_id: str):
 
     keyboard = {
         "inline_keyboard": [
-            [{"text": "Открыть Mini App", "web_app": {"url": WEB_APP_URL}}],
-            [{"text": "Записаться через ссылку", "url": WEB_APP_URL}],
+            [{"text": "Открыть Mini App", "web_app": {"url": web_app_url}}],
+            [{"text": "Записаться через ссылку", "url": web_app_url}],
         ]
     }
     text = (
