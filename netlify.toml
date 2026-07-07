@@ -1,0 +1,14 @@
+# Netlify build config для Telegram Mini App (фронтенд в подпапке frontend/)
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA: любой путь отдаёт index.html (на случай прямых ссылок)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
