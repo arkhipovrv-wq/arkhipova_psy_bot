@@ -202,6 +202,15 @@ function getTelegramProfile() {
   };
 }
 
+/* telegram-web-app.js грузится async — дожидаемся появления WebApp (до ~3с),
+   но приложение при этом уже отрисовано и работает даже без Telegram. */
+function whenTelegramReady(cb, tries = 30) {
+  const webApp = window.Telegram?.WebApp;
+  if (webApp) { cb(webApp); return; }
+  if (tries <= 0) return;
+  setTimeout(() => whenTelegramReady(cb, tries - 1), 100);
+}
+
 /* ─── CALENDAR COMPONENT ─── */
 function Calendar({ onSelect }) {
   const today = new Date();
@@ -355,11 +364,12 @@ function BookingPage() {
   const service = services.find((x) => x.id === sel);
 
   useEffect(() => {
-    const profile = getTelegramProfile();
-    if (!profile) return;
-
-    setName((prev) => prev || profile.firstName || "");
-    setTg((prev) => prev || profile.username || "");
+    whenTelegramReady(() => {
+      const profile = getTelegramProfile();
+      if (!profile) return;
+      setName((prev) => prev || profile.firstName || "");
+      setTg((prev) => prev || profile.username || "");
+    });
   }, []);
 
   const submitBooking = async () => {
@@ -500,13 +510,13 @@ function BookingPage() {
 export default function App() {
   const [tab, setTab] = useState("home");
   useEffect(() => {
-    const webApp = window.Telegram?.WebApp;
-    if (!webApp) return;
-    webApp.ready();
-    webApp.expand();
-    try { webApp.setHeaderColor?.("#F5F1EA"); } catch {}
-    try { webApp.setBackgroundColor?.("#F5F1EA"); } catch {}
-    try { webApp.disableVerticalSwipes?.(); } catch {}
+    whenTelegramReady((webApp) => {
+      webApp.ready();
+      webApp.expand();
+      try { webApp.setHeaderColor?.("#F5F1EA"); } catch {}
+      try { webApp.setBackgroundColor?.("#F5F1EA"); } catch {}
+      try { webApp.disableVerticalSwipes?.(); } catch {}
+    });
   }, []);
 
   const tabs = [
