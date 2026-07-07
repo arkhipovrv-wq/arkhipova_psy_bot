@@ -1,0 +1,22 @@
+# Render Blueprint для бэкенда Telegram Mini App (FastAPI).
+# Деплой: Render Dashboard → New → Blueprint → выбрать этот репозиторий.
+# Секреты (BOT_TOKEN, ADMIN_CHAT_ID) задаются в дашборде — в репо их нет.
+services:
+  - type: web
+    name: arkhipova-psy-bot        # → https://arkhipova-psy-bot.onrender.com
+    runtime: python
+    plan: free
+    region: frankfurt
+    rootDir: psy_bot_backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: WEB_APP_URL           # публичный адрес фронта (кнопка в /start)
+        value: https://relaxed-liger-2d17fd.netlify.app
+      - key: BOT_TOKEN             # задать в дашборде (новый токен после revoke!)
+        sync: false
+      - key: ADMIN_CHAT_ID         # задать в дашборде (chat_id Александры)
+        sync: false

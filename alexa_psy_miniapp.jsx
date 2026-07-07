@@ -185,7 +185,7 @@ const formats = [
   {icon:"🏡", name:"Очно",    desc:"Малая Покровская 18, Н. Новгород"},
 ];
 
-const DEFAULT_API_BASE = "https://arkhipovapsybot-production.up.railway.app";
+const DEFAULT_API_BASE = "https://arkhipova-psy-bot.onrender.com";
 
 function resolveApiBase() {
   const raw = import.meta.env.VITE_API_URL || DEFAULT_API_BASE;

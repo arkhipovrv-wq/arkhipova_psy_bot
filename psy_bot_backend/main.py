@@ -174,18 +174,41 @@ async def get_my_id():
     return {"updates": results}
 
 
+def resolve_public_base_url() -> str:
+    """
+    Публичный https-адрес сервиса — не зависит от платформы.
+    Приоритет: явный PUBLIC_BASE_URL → Render (RENDER_EXTERNAL_URL) → Railway.
+    """
+    explicit = os.environ.get("PUBLIC_BASE_URL", "").strip()
+    if explicit:
+        return explicit.rstrip("/")
+
+    render_url = os.environ.get("RENDER_EXTERNAL_URL", "").strip()
+    if render_url:
+        return render_url.rstrip("/")
+
+    railway_host = os.environ.get("RAILWAY_PUBLIC_DOMAIN", "").strip()
+    if railway_host:
+        return f"https://{railway_host}".rstrip("/")
+
+    return ""
+
+
 @app.get("/set_webhook")
 async def set_webhook():
     """
     Вспомогательный endpoint для установки webhook из браузера.
-    Открой: https://<your-service>.up.railway.app/set_webhook
+    Открой: https://<your-service>/set_webhook — один раз после деплоя.
     """
-    base_url = os.environ.get("RAILWAY_PUBLIC_DOMAIN", "").strip()
-    if base_url:
-        webhook_url = f"https://{base_url}/webhook"
-    else:
-        return {"ok": False, "error": "RAILWAY_PUBLIC_DOMAIN is not set"}
+    base_url = resolve_public_base_url()
+    if not base_url:
+        return {
+            "ok": False,
+            "error": "Не найден публичный URL. Задай PUBLIC_BASE_URL "
+                     "(или используй Render/Railway, где адрес подставляется автоматически).",
+        }
 
+    webhook_url = f"{base_url}/webhook"
     async with httpx.AsyncClient() as client:
         r = await client.post(f"{TG_API}/setWebhook", json={"url": webhook_url})
         data = r.json()
