@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 /* ─── STYLES · «Спокойная терапия» (светлая тема) ─── */
 const css = `
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#F5F1EA; --card:#FFFFFF; --card2:#FBF8F3;
@@ -13,7 +12,7 @@ const css = `
   --sh:0 6px 24px rgba(51,53,47,.06);
 }
 html,body{background:var(--bg)}
-body{font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .app{width:100%;max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;background:var(--bg);position:relative;overflow-x:hidden}
 .page{min-height:100dvh;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 
@@ -34,9 +33,9 @@ body{font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:an
 .ey{display:inline-flex;align-items:center;gap:7px;background:var(--sage-t);border:1px solid rgba(95,122,103,.22);border-radius:20px;padding:5px 13px 5px 9px;font-size:11px;font-weight:700;color:var(--sage);letter-spacing:.6px;margin-bottom:18px;text-transform:uppercase}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--sage);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
-.hn{font-family:'Fraunces',serif;font-size:clamp(34px,10vw,46px);font-weight:600;line-height:1.03;letter-spacing:-.5px;margin-bottom:12px;color:var(--ink)}
+.hn{font-family:'Fraunces','Georgia',serif;font-size:clamp(34px,10vw,46px);font-weight:600;line-height:1.03;letter-spacing:-.5px;margin-bottom:12px;color:var(--ink)}
 .hn .pk{color:var(--sage)}
-.htag{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(15px,4.4vw,18px);font-weight:400;color:var(--mu);line-height:1.5;margin-bottom:26px;max-width:300px}
+.htag{font-family:'Fraunces','Georgia',serif;font-style:italic;font-size:clamp(15px,4.4vw,18px);font-weight:400;color:var(--mu);line-height:1.5;margin-bottom:26px;max-width:300px}
 .hrow{display:flex;align-items:flex-end;gap:16px}
 .hphoto{width:96px;height:112px;border-radius:24px;overflow:hidden;border:3px solid #fff;box-shadow:var(--sh);flex-shrink:0;background:linear-gradient(135deg,var(--sage-l),var(--blush))}
 .hphoto img{width:100%;height:100%;object-fit:cover}
@@ -48,18 +47,18 @@ body{font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:an
 .stats{display:flex;background:#fff;border:1px solid var(--bd);border-radius:24px;box-shadow:var(--sh);margin:18px 16px 4px;padding:18px 6px}
 .sta{flex:1;text-align:center;border-right:1px solid var(--bd)}
 .sta:last-child{border-right:none}
-.sn{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--sage);line-height:1}
+.sn{font-family:'Fraunces','Georgia',serif;font-size:26px;font-weight:600;color:var(--sage);line-height:1}
 .sl{font-size:10.5px;color:var(--mu);margin-top:5px;font-weight:500}
 
 /* SEC HEADER */
 .sh{display:flex;align-items:baseline;gap:12px;padding:32px 22px 16px}
-.st{font-family:'Fraunces',serif;font-size:22px;font-weight:600;letter-spacing:-.2px;white-space:nowrap;color:var(--ink)}
+.st{font-family:'Fraunces','Georgia',serif;font-size:22px;font-weight:600;letter-spacing:-.2px;white-space:nowrap;color:var(--ink)}
 .sline{flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent)}
 
 /* QUOTE */
 .qb{margin:0 16px;background:var(--blush-t);border:1px solid rgba(216,155,135,.28);border-radius:24px;padding:26px 22px 22px;position:relative;overflow:hidden}
-.qb::before{content:'\\201C';position:absolute;top:2px;left:14px;font-family:'Fraunces',serif;font-size:96px;font-weight:600;color:rgba(95,122,103,.18);line-height:1}
-.qt{font-family:'Fraunces',serif;font-style:italic;font-size:17px;line-height:1.62;color:var(--ink);position:relative;z-index:1}
+.qb::before{content:'\\201C';position:absolute;top:2px;left:14px;font-family:'Fraunces','Georgia',serif;font-size:96px;font-weight:600;color:rgba(95,122,103,.18);line-height:1}
+.qt{font-family:'Fraunces','Georgia',serif;font-style:italic;font-size:17px;line-height:1.62;color:var(--ink);position:relative;z-index:1}
 .qa{margin-top:14px;font-size:12.5px;color:var(--sage);font-weight:700;position:relative;z-index:1}
 
 /* WORKS GRID */
@@ -73,13 +72,13 @@ body{font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:an
 .fs{display:flex;gap:12px;padding:0 16px}
 .fc{flex:1;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);padding:16px 16px 18px}
 .fc-ic{font-size:22px;margin-bottom:10px}
-.fc-n{font-family:'Fraunces',serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.fc-n{font-family:'Fraunces','Georgia',serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px}
 .fc-d{font-size:11.5px;color:var(--mu);line-height:1.45}
 
 /* BTN */
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 32px);margin:0 16px;padding:17px;background:var(--sage);color:#fff;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;letter-spacing:.2px;border-radius:18px;border:none;cursor:pointer;transition:transform .15s,box-shadow .2s;box-shadow:0 10px 26px rgba(95,122,103,.28)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 32px);margin:0 16px;padding:17px;background:var(--sage);color:#fff;font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;font-weight:700;letter-spacing:.2px;border-radius:18px;border:none;cursor:pointer;transition:transform .15s,box-shadow .2s;box-shadow:0 10px 26px rgba(95,122,103,.28)}
 .btn:active{transform:scale(.98)}
-.btn-o{width:100%;padding:16px;background:#fff;color:var(--sage);border:1.5px solid rgba(95,122,103,.4);border-radius:16px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:border-color .2s}
+.btn-o{width:100%;padding:16px;background:#fff;color:var(--sage);border:1.5px solid rgba(95,122,103,.4);border-radius:16px;font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:border-color .2s}
 .btn-o:hover{border-color:var(--sage)}
 
 /* SERVICES */
@@ -88,26 +87,26 @@ body{font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:an
 .sc.sel{border-color:var(--sage);background:var(--sage-t)}
 .sc-art{width:56px;height:56px;border-radius:16px;margin:12px 0 12px 12px;flex-shrink:0}
 .sc-b{flex:1;padding:12px 14px}
-.sc-n{font-family:'Fraunces',serif;font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.sc-n{font-family:'Fraunces','Georgia',serif;font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:3px}
 .sc-d{font-size:11.5px;color:var(--mu);line-height:1.4}
 .sc-p{text-align:right;padding-right:14px;flex-shrink:0}
-.sc-pn{font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--sage)}
+.sc-pn{font-family:'Fraunces','Georgia',serif;font-size:16px;font-weight:600;color:var(--sage)}
 .sc-pd{font-size:10px;color:var(--mu);margin-top:2px}
 
 /* BOOKING FORM */
 .bf{margin:0 16px 14px;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);padding:20px}
 .fl{font-size:11px;font-weight:700;color:var(--mu);letter-spacing:.6px;text-transform:uppercase;margin-bottom:9px;display:block}
 .fbs{display:flex;gap:8px;margin-bottom:16px}
-.fb{flex:1;padding:12px 8px;border-radius:13px;border:1.5px solid var(--bd);background:#fff;font-size:12.5px;font-weight:600;color:var(--mu);cursor:pointer;transition:all .2s;font-family:'Manrope',sans-serif}
+.fb{flex:1;padding:12px 8px;border-radius:13px;border:1.5px solid var(--bd);background:#fff;font-size:12.5px;font-weight:600;color:var(--mu);cursor:pointer;transition:all .2s;font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif}
 .fb.on{background:var(--sage);border-color:transparent;color:#fff}
-.fi{width:100%;padding:13px 14px;background:var(--card2);border:1.5px solid var(--bd);border-radius:13px;font-size:14.5px;font-family:'Manrope',sans-serif;color:var(--ink);outline:none;margin-bottom:11px;transition:border-color .2s,background .2s}
+.fi{width:100%;padding:13px 14px;background:var(--card2);border:1.5px solid var(--bd);border-radius:13px;font-size:14.5px;font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);outline:none;margin-bottom:11px;transition:border-color .2s,background .2s}
 .fi::placeholder{color:var(--mu2)}
 .fi:focus{border-color:var(--sage);background:#fff}
 
 /* CALENDAR */
 .cal{margin:0 16px 14px;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);padding:16px;overflow:hidden}
 .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.cal-title{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--ink)}
+.cal-title{font-family:'Fraunces','Georgia',serif;font-size:17px;font-weight:600;color:var(--ink)}
 .cal-nav{width:34px;height:34px;border-radius:11px;background:var(--card2);border:1px solid var(--bd);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s}
 .cal-nav:hover{background:var(--sage-t)}
 .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px}
@@ -127,18 +126,18 @@ body{font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:an
 .ts-wrap{padding:14px 0 0}
 .ts-label{font-size:11px;font-weight:700;color:var(--mu);letter-spacing:.6px;text-transform:uppercase;margin-bottom:11px;display:block}
 .ts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.ts{padding:11px 4px;border-radius:11px;border:1.5px solid var(--bd);background:#fff;font-size:12.5px;font-weight:600;color:var(--mu);cursor:pointer;transition:all .2s;font-family:'Manrope',sans-serif;text-align:center}
+.ts{padding:11px 4px;border-radius:11px;border:1.5px solid var(--bd);background:#fff;font-size:12.5px;font-weight:600;color:var(--mu);cursor:pointer;transition:all .2s;font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;text-align:center}
 .ts.on{background:var(--sage);border-color:transparent;color:#fff}
 .ts:hover:not(.on){border-color:var(--sage);color:var(--ink)}
 
 /* SUCCESS */
 .succ{padding:64px 24px 40px;text-align:center}
 .sr{width:88px;height:88px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;color:#fff;font-size:40px;margin:0 auto 26px;box-shadow:0 0 0 10px var(--sage-t)}
-.sh2{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--ink);margin-bottom:12px}
+.sh2{font-family:'Fraunces','Georgia',serif;font-size:26px;font-weight:600;color:var(--ink);margin-bottom:12px}
 .sp{font-size:14.5px;color:var(--mu);line-height:1.6;margin-bottom:28px}
 .ss{background:var(--card2);border:1px solid var(--bd);border-radius:16px;padding:16px 18px;margin-bottom:22px;text-align:left}
 .ss-l{font-size:11px;color:var(--mu);margin-bottom:4px;letter-spacing:.5px}
-.ss-v{font-family:'Fraunces',serif;font-size:15px;font-weight:600;color:var(--ink)}
+.ss-v{font-family:'Fraunces','Georgia',serif;font-size:15px;font-weight:600;color:var(--ink)}
 .ss-p{color:var(--sage);font-size:13px;margin-top:2px;font-weight:600}
 
 .note{margin:0 16px;background:var(--sage-t);border:1px solid rgba(95,122,103,.2);border-radius:14px;padding:13px 15px;font-size:12.5px;color:var(--sage);line-height:1.55;font-weight:500}
@@ -465,7 +464,7 @@ function BookingPage() {
 
           {/* Calendar */}
           <div style={{padding:"0 16px 4px"}}>
-            <div style={{fontFamily:"'Fraunces',serif",fontSize:20,fontWeight:600,marginBottom:14,letterSpacing:"-.2px",color:"var(--ink)"}}>
+            <div style={{fontFamily:"'Fraunces','Georgia',serif",fontSize:20,fontWeight:600,marginBottom:14,letterSpacing:"-.2px",color:"var(--ink)"}}>
               Выберите дату и время
             </div>
           </div>
@@ -474,7 +473,7 @@ function BookingPage() {
           {dt && (
             <div style={{margin:"0 16px 14px",background:"var(--sage-t)",border:"1px solid rgba(95,122,103,.25)",borderRadius:14,padding:"12px 14px"}}>
               <div style={{fontSize:11,color:"var(--mu)",marginBottom:4,letterSpacing:.5,textTransform:"uppercase",fontWeight:700}}>Выбрано</div>
-              <div style={{fontFamily:"'Fraunces',serif",fontSize:15,fontWeight:600,color:"var(--sage)"}}>📅 {dt.label}</div>
+              <div style={{fontFamily:"'Fraunces','Georgia',serif",fontSize:15,fontWeight:600,color:"var(--sage)"}}>📅 {dt.label}</div>
             </div>
           )}
         </div>
