@@ -295,7 +295,8 @@ function HomePage({ onBook }) {
           <div className="htag">«Ты разрешаешь себе быть яркой — и наслаждаешься этим»</div>
           <div className="hrow">
             <div className="hphoto">
-              <img src="https://thb.tildacdn.pub/tild3761-6365-4332-b430-643863626334/-/empty/IMG_7513.jpeg" alt=""
+              <img src="/alexandra.jpg" alt="Александра Архипова"
+                style={{objectPosition:"50% 22%"}}
                 onError={e=>{e.target.style.display="none"}}/>
             </div>
             <div className="chips">
