@@ -6,10 +6,13 @@ from pydantic import BaseModel
 import httpx
 
 # ─── CONFIG ───────────────────────────────────────────────────
-BOT_TOKEN   = os.environ.get("BOT_TOKEN", "ВСТАВЬ_ТОКЕН_СЮДА")
-ADMIN_CHAT  = os.environ.get("ADMIN_CHAT_ID", "ВСТАВЬ_СВОЙ_CHAT_ID")  # chat_id Александры
-WEB_APP_URL = os.environ.get("WEB_APP_URL", "").strip()
-TG_API      = f"https://api.telegram.org/bot{BOT_TOKEN}"
+BOT_TOKEN     = os.environ.get("BOT_TOKEN", "ВСТАВЬ_ТОКЕН_СЮДА")
+ADMIN_CHAT    = os.environ.get("ADMIN_CHAT_ID", "ВСТАВЬ_СВОЙ_CHAT_ID")  # chat_id Александры/Романа
+WEB_APP_URL   = os.environ.get("WEB_APP_URL", "").strip()
+CHANNEL_ID    = os.environ.get("CHANNEL_ID", "@amoralniy_psiholog")     # канал для промо гайда
+BOT_USERNAME  = os.environ.get("BOT_USERNAME", "arkhipova_psy_bot")     # для deep-link кнопки
+GUIDE_PAY_URL = os.environ.get("GUIDE_PAY_URL", "https://qr.nspk.ru/BS1A0009246PQ1MC8VKQ42M0KCOIKM6A")
+TG_API        = f"https://api.telegram.org/bot{BOT_TOKEN}"
 
 # ─── APP ──────────────────────────────────────────────────────
 app = FastAPI(title="Arkhipova PSY Bot")
@@ -80,6 +83,57 @@ async def send_start_menu(chat_id: str):
     )
     return await send_message(chat_id, text, reply_markup=keyboard)
 
+# ─── ГАЙД «Терапия в кармане» ─────────────────────────────────
+def guide_cover_url() -> str:
+    base = normalize_web_app_url(WEB_APP_URL).rstrip("/")
+    return f"{base}/guide.jpg" if base else "https://relaxed-liger-2d17fd.netlify.app/guide.jpg"
+
+
+GUIDE_PITCH = (
+    "<b>Гайд «Терапия в кармане» — 490 ₽</b>\n\n"
+    "32 страницы по психоаналитической диагностике и самопомощи: типы личности "
+    "простым языком + как себе помочь и куда смотреть в своих реакциях.\n\n"
+    "<b>Как забрать:</b>\n"
+    "1. Оплатите 490 ₽ по кнопке ниже (СБП).\n"
+    "2. Пришлите чек об оплате сюда, в этот чат.\n"
+    "3. Мы вышлем вам PDF.\n\n"
+    "Не замена терапии, но честная опора, чтобы понять себя глубже. 🌿"
+)
+
+CHANNEL_PROMO = (
+    "<b>«Терапия в кармане» — гайд-методичка</b>\n\n"
+    "Узнаёте себя в моих постах и рилс и думаете «и что мне теперь с этим делать»? "
+    "Этот гайд — первый шаг, чтобы начать понимать себя глубже.\n\n"
+    "Внутри, 32 страницы:\n"
+    "• типы личности простым языком\n"
+    "• как себе помочь и какие вопросы себе задавать\n"
+    "• куда смотреть в своих реакциях\n\n"
+    "Не замена терапии, но честная опора."
+)
+
+
+async def send_photo(chat_id: str, photo: str, caption: str, reply_markup: dict | None = None):
+    payload = {"chat_id": chat_id, "photo": photo, "caption": caption, "parse_mode": "HTML"}
+    if reply_markup:
+        payload["reply_markup"] = reply_markup
+    async with httpx.AsyncClient() as client:
+        r = await client.post(f"{TG_API}/sendPhoto", json=payload)
+        log.info("TG sendPhoto: %s", r.text)
+        return r.json()
+
+
+async def send_guide_pitch(chat_id: str):
+    """Питч гайда клиенту (по deep-link /start guide из канала)."""
+    keyboard = {"inline_keyboard": [[{"text": "Оплатить 490 ₽ по СБП", "url": GUIDE_PAY_URL}]]}
+    return await send_photo(chat_id, guide_cover_url(), GUIDE_PITCH, reply_markup=keyboard)
+
+
+async def post_guide_to_channel():
+    """Публикует промо-пост гайда в канал с кнопкой-воронкой в бота."""
+    start_link = f"https://t.me/{BOT_USERNAME}?start=guide"
+    keyboard = {"inline_keyboard": [[{"text": "Забрать гайд · 490 ₽", "url": start_link}]]}
+    return await send_photo(CHANNEL_ID, guide_cover_url(), CHANNEL_PROMO, reply_markup=keyboard)
+
 # ─── ROUTES ───────────────────────────────────────────────────
 @app.get("/")
 async def root():
@@ -101,11 +155,33 @@ async def telegram_webhook(request: Request):
     if not chat_id:
         return {"ok": True, "ignored": "no_chat_id"}
 
-    if text in {"/start", "/menu"}:
+    # Разбираем команду и её payload (deep-link «/start guide» приходит как текст).
+    parts = text.split(maxsplit=1)
+    cmd = parts[0] if parts else ""
+    payload = parts[1].strip() if len(parts) > 1 else ""
+
+    if cmd == "/start" and payload == "guide":
+        result = await send_guide_pitch(str(chat_id))
+        return {"ok": bool(result.get("ok")), "action": "guide_pitch"}
+
+    if cmd == "/post_guide":
+        if str(chat_id) != str(ADMIN_CHAT):
+            await send_message(str(chat_id), "Команда доступна только администратору.")
+            return {"ok": False, "action": "post_guide_denied"}
+        result = await post_guide_to_channel()
+        ok = bool(result.get("ok"))
+        await send_message(
+            str(chat_id),
+            "✅ Пост про гайд опубликован в канал." if ok
+            else f"❌ Не удалось опубликовать. Проверьте, что бот — админ канала с правом постить.\n{result}",
+        )
+        return {"ok": ok, "action": "post_guide"}
+
+    if cmd in {"/start", "/menu"}:
         result = await send_start_menu(str(chat_id))
         return {"ok": bool(result.get("ok")), "action": "start_menu"}
 
-    if text == "/help":
+    if cmd == "/help":
         result = await send_message(
             str(chat_id),
             "Команды:\n"
