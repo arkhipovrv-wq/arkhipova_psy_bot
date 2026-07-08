@@ -142,6 +142,38 @@ body{font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;color:var(
 
 .note{margin:0 16px;background:var(--sage-t);border:1px solid rgba(95,122,103,.2);border-radius:14px;padding:13px 15px;font-size:12.5px;color:var(--sage);line-height:1.55;font-weight:500}
 
+/* CONTENT: соцсети */
+.clinks{display:flex;gap:12px;padding:0 16px}
+.clink{flex:1;display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh);padding:15px 16px;cursor:pointer;transition:transform .15s}
+.clink:active{transform:scale(.98)}
+.clink-ic{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff}
+.clink-ig{background:linear-gradient(135deg,#FEDA75,#FA7E1E 35%,#D62976 65%,#962FBF)}
+.clink-tg{background:#2AABEE}
+.clink-n{font-family:'Fraunces','Georgia',serif;font-size:14.5px;font-weight:600;color:var(--ink)}
+.clink-h{font-size:11.5px;color:var(--mu);margin-top:2px}
+
+/* CONTENT: витрина Reels */
+.rg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px}
+.rc{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;aspect-ratio:3/4;border:1px solid var(--bd);background:var(--card2);transition:transform .15s}
+.rc:active{transform:scale(.98)}
+.rc img{width:100%;height:100%;object-fit:cover;display:block}
+.rc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(18,20,16,.85) 0%,rgba(18,20,16,.2) 46%,transparent 72%)}
+.rc-b{position:absolute;left:0;right:0;bottom:0;padding:10px 11px;z-index:1}
+.rc-v{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:#fff;background:rgba(0,0,0,.32);backdrop-filter:blur(4px);padding:3px 8px;border-radius:8px;margin-bottom:6px}
+.rc-t{font-size:12px;font-weight:600;color:#fff;line-height:1.3;text-shadow:0 1px 6px rgba(0,0,0,.7);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* CONTENT: карточка гайда */
+.guide{margin:0 16px;background:linear-gradient(135deg,var(--sage-t),var(--blush-t));border:1px solid rgba(95,122,103,.25);border-radius:22px;padding:16px;display:flex;gap:15px;align-items:stretch}
+.guide-cov{width:96px;flex-shrink:0;border-radius:14px;object-fit:cover;box-shadow:var(--sh);align-self:flex-start}
+.guide-b{flex:1;min-width:0;display:flex;flex-direction:column}
+.guide-k{font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--sage);margin-bottom:4px}
+.guide-t{font-family:'Fraunces','Georgia',serif;font-size:17px;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:5px}
+.guide-d{font-size:11.5px;color:var(--mu);line-height:1.4;margin-bottom:8px}
+.guide-p{font-size:12.5px;color:var(--ink);margin-bottom:10px}
+.guide-p b{font-family:'Fraunces','Georgia',serif;color:var(--sage);font-weight:700;font-size:15px}
+.guide-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--sage);color:#fff;font-family:'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13px;font-weight:700;padding:11px 16px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 6px 16px rgba(95,122,103,.25);width:100%}
+.guide-hint{font-size:11px;color:var(--mu);line-height:1.4;margin-top:8px}
+
 .fin{animation:fadeUp .35s ease forwards}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 `;
@@ -183,6 +215,33 @@ const formats = [
   {icon:"💻", name:"Онлайн",  desc:"Zoom, Telegram, FaceTime, Google Meet"},
   {icon:"🏡", name:"Очно",    desc:"Малая Покровская 18, Н. Новгород"},
 ];
+
+/* ─── КОНТЕНТ ─── */
+const IG_URL       = "https://www.instagram.com/alexa.psy.lab";
+const IG_DM_URL    = "https://ig.me/m/alexa.psy.lab";
+const CHANNEL_URL  = "https://t.me/amoralniy_psiholog";
+const GUIDE_PAY_URL = "https://qr.nspk.ru/BS1A0009246PQ1MC8VKQ42M0KCOIKM6A";
+
+// «Залетевшие» — топ Reels по просмотрам (обложки вшиты в /public/reels)
+const reels = [
+  {cover:"/reels/DXewUcyCLTJ.jpg", views:"1,1 млн", title:"Психоаналитическая диагностика личности. Часть 1", url:"https://www.instagram.com/reel/DXewUcyCLTJ/"},
+  {cover:"/reels/DZVDWCZIgTV.jpg", views:"174к",    title:"Уровни организации личности — серия",             url:"https://www.instagram.com/reel/DZVDWCZIgTV/"},
+  {cover:"/reels/DXpH9dwCD_h.jpg", views:"158к",    title:"Пограничный уровень. Часть 1",                    url:"https://www.instagram.com/reel/DXpH9dwCD_h/"},
+  {cover:"/reels/DSIOGd1iFph.jpg", views:"86к",     title:"Немного личного",                                 url:"https://www.instagram.com/reel/DSIOGd1iFph/"},
+  {cover:"/reels/DXrelY-iMpG.jpg", views:"80к",     title:"Пограничный уровень. Часть 2",                    url:"https://www.instagram.com/reel/DXrelY-iMpG/"},
+  {cover:"/reels/DYkhn_Qx5Sh.jpg", views:"62к",     title:"Шизоидный тип. Часть 1",                          url:"https://www.instagram.com/reel/DYkhn_Qx5Sh/"},
+  {cover:"/reels/DXM7VmMCH5Z.jpg", views:"55к",     title:"«Мне 33» — личное",                               url:"https://www.instagram.com/reel/DXM7VmMCH5Z/"},
+  {cover:"/reels/DXmF_OhCJQS.jpg", views:"52к",     title:"Как обозначать свои границы",                     url:"https://www.instagram.com/reel/DXmF_OhCJQS/"},
+];
+
+function openLink(url) {
+  const webApp = window.Telegram?.WebApp;
+  if (url.startsWith("https://t.me/") || url.startsWith("tg://")) {
+    if (webApp?.openTelegramLink) { webApp.openTelegramLink(url); return; }
+  }
+  if (webApp?.openLink) { webApp.openLink(url); return; }
+  window.open(url, "_blank", "noopener");
+}
 
 const DEFAULT_API_BASE = "https://arkhipova-psy-bot.onrender.com";
 
@@ -507,6 +566,74 @@ function BookingPage() {
   );
 }
 
+function ContentPage() {
+  return (
+    <div className="page fin">
+      <div className="sh" style={{paddingTop:"calc(36px + env(safe-area-inset-top))"}}><span className="st">Контент</span><div className="sline"/></div>
+
+      {/* Соцсети */}
+      <div className="clinks">
+        <div className="clink" onClick={()=>openLink(IG_URL)}>
+          <div className="clink-ic clink-ig">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div>
+            <div className="clink-n">Instagram</div>
+            <div className="clink-h">@alexa.psy.lab</div>
+          </div>
+        </div>
+        <div className="clink" onClick={()=>openLink(CHANNEL_URL)}>
+          <div className="clink-ic clink-tg">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round">
+              <path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+            </svg>
+          </div>
+          <div>
+            <div className="clink-n">Telegram-канал</div>
+            <div className="clink-h">@amoralniy_psiholog</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Залетевшие */}
+      <div className="sh"><span className="st">Залетевшие</span><div className="sline"/></div>
+      <div className="rg">
+        {reels.map(r=>(
+          <div className="rc" key={r.url} onClick={()=>openLink(r.url)}>
+            <img src={r.cover} alt={r.title} loading="lazy"
+              onError={e=>{e.target.style.display="none"}}/>
+            <div className="rc-ov"/>
+            <div className="rc-b">
+              <span className="rc-v">▶ {r.views}</span>
+              <div className="rc-t">{r.title}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Гайд */}
+      <div className="sh"><span className="st">Гайд</span><div className="sline"/></div>
+      <div className="guide">
+        <img className="guide-cov" src="/guide.jpg" alt="Гайд «Терапия в кармане»"/>
+        <div className="guide-b">
+          <div className="guide-k">Авторский гайд</div>
+          <div className="guide-t">«Терапия в кармане»</div>
+          <div className="guide-d">32 страницы: типы личности простым языком + как понять себя и куда смотреть в своих реакциях.</div>
+          <div className="guide-p"><b>490 ₽</b> · оплата по СБП</div>
+          <button className="guide-btn" onClick={()=>openLink(GUIDE_PAY_URL)}>Купить · 490 ₽</button>
+          <div className="guide-hint">После оплаты пришлите чек в этот бот — вышлем гайд.</div>
+        </div>
+      </div>
+      <div style={{height:16}}/>
+      <div className="note">Материалы для ознакомления. Записаться на личную работу — во вкладке «Запись».</div>
+    </div>
+  );
+}
+
 /* ─── ROOT ─── */
 export default function App() {
   const [tab, setTab] = useState("home");
@@ -536,6 +663,12 @@ export default function App() {
         <circle cx="12" cy="16" r="1.8" fill={a?"#5F7A67":"#A8A69C"}/>
       </svg>
     )},
+    {id:"content", label:"Контент", icon:a=>(
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+        <rect x="3" y="4" width="18" height="16" rx="4" fill={a?"#5F7A67":"none"} stroke={a?"#5F7A67":"#A8A69C"} strokeWidth="1.8"/>
+        <path d="M10 9.2v5.6l5-2.8-5-2.8z" fill={a?"#fff":"#A8A69C"} stroke="none"/>
+      </svg>
+    )},
   ];
   return (
     <>
@@ -543,6 +676,7 @@ export default function App() {
       <div className="app">
         {tab==="home"    && <HomePage    onBook={()=>setTab("booking")}/>}
         {tab==="booking" && <BookingPage/>}
+        {tab==="content" && <ContentPage/>}
         <nav className="nav">
           {tabs.map(({id,label,icon})=>{
             const a=tab===id;

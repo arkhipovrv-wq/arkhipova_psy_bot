@@ -115,7 +115,31 @@ async def telegram_webhook(request: Request):
         )
         return {"ok": bool(result.get("ok")), "action": "help"}
 
-    return {"ok": True, "ignored": "unsupported_message"}
+    # Любое прочее сообщение (в т.ч. чек об оплате гайда) пересылаем администратору,
+    # клиенту отвечаем подтверждением. Так работает «чек об оплате — боту».
+    msg_id = message.get("message_id")
+    from_user = message.get("from") or {}
+    uname = from_user.get("username")
+    who = f"@{uname}" if uname else (from_user.get("first_name") or "без имени")
+
+    if msg_id is not None:
+        async with httpx.AsyncClient() as client:
+            await client.post(
+                f"{TG_API}/forwardMessage",
+                json={"chat_id": ADMIN_CHAT, "from_chat_id": chat_id, "message_id": msg_id},
+            )
+
+    await send_message(
+        ADMIN_CHAT,
+        f"⬆️ Сообщение от {who} (chat_id {chat_id}).\n"
+        "Возможно — чек об оплате гайда «Терапия в кармане».",
+    )
+    await send_message(
+        str(chat_id),
+        "Спасибо! Сообщение получено — Александра ответит вам лично.\n"
+        "Если это оплата гайда, пришлём «Терапия в кармане» после проверки. 🌿",
+    )
+    return {"ok": True, "action": "forwarded_to_admin"}
 
 
 @app.post("/booking")
