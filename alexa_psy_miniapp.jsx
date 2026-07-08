@@ -193,7 +193,7 @@ const DAYS   = ["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
 const TIMES  = ["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00"];
 
 const services = [
-  {id:1,grad:G.s1,name:"Индивидуальная сессия",     desc:"Личный запрос · работа с телом и чувствами",price:"7 000 ₽", dur:"50 мин"},
+  {id:1,grad:G.s1,name:"Индивидуальная сессия",     desc:"Личный запрос · работа с чувствами и состоянием",price:"7 000 ₽", dur:"50 мин"},
   {id:2,grad:G.s2,name:"Расширенная консультация",  desc:"Глубокая работа с темой · разовая встреча",  price:"10 000 ₽",dur:"1ч 20 мин"},
   {id:3,grad:G.s3,name:"Семейная / парная",          desc:"Работа с отношениями и коммуникацией",       price:"8 000 ₽", dur:"1ч 20 мин"},
   {id:4,grad:G.s4,name:"Детско-родительская",        desc:"Рекомендации и разбор запроса",              price:"10 000 ₽",dur:"1ч 20 мин"},
@@ -204,7 +204,7 @@ const works = [
   "Тревога и внутренний хаос",
   "Хочу большего, но стою на месте",
   "Отношения и границы",
-  "Травма и телесные реакции",
+  "Травма и её проживание",
   "Вспышки гнева и вина",
   "Потеря контакта с собой",
   "Детско-родительские",
@@ -349,7 +349,7 @@ function HomePage({ onBook }) {
       <div className="hero">
         <div className="hbg"/><div className="bl1"/><div className="bl2"/>
         <div className="hi">
-          <div className="ey"><span className="dot"/>Психолог · телесная терапия</div>
+          <div className="ey"><span className="dot"/>А-моральный психолог</div>
           <div className="hn">Александра<br/><span className="pk">Архипова</span></div>
           <div className="htag">«Ты разрешаешь себе быть яркой — и наслаждаешься этим»</div>
           <div className="hrow">
@@ -362,7 +362,7 @@ function HomePage({ onBook }) {
               <span className="ch g">5000+ часов</span>
               <span className="ch">Семейный терапевт</span>
               <span className="ch">Групповая терапия</span>
-              <span className="ch">Работа с телом</span>
+              <span className="ch">Работа с травмой</span>
               <span className="ch">Н. Новгород · Онлайн</span>
             </div>
           </div>
@@ -377,7 +377,7 @@ function HomePage({ onBook }) {
 
       <div className="sh"><span className="st">Философия</span><div className="sline"/></div>
       <div className="qb">
-        <div className="qt">Помогаю, когда хочешь звучать и проявляться — но внутри зажато. Работаю с телом, чувствами, энергией. Психолог для смелых жизненных изменений.</div>
+        <div className="qt">Помогаю, когда хочешь звучать и проявляться — но внутри зажато. Работаю с чувствами, состоянием и отношениями. Психолог для смелых жизненных изменений.</div>
         <div className="qa">— Александра Архипова</div>
       </div>
 
